@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>嘉南親子樂遊 | 4天3夜客製化行程 (V3)</title>
+    <title>嘉南親子樂遊 | 4天3夜客製化行程 (V8)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Warm Journey -->
-    <!-- Application Structure Plan: The SPA is updated to include two new sections: "Souvenirs" and "New Attractions", integrated into the existing task-oriented structure. The top navigation is expanded to link to these new sections. This maintains the user-friendly flow while enriching the content based on the new source report, allowing users to explore more aspects of their trip within the same interface. -->
-    <!-- Visualization & Content Choices: 1. Souvenir List -> Goal: Easy discovery of local gifts -> Viz: Card Grid (HTML/Tailwind) -> Interaction: Map icon clicks -> Justification: A visual grid is effective for browsing items. Each card provides key info (name, rating, desc, map link) as requested. 2. New Attractions List -> Goal: Showcase popular spots -> Viz: Card Grid (HTML/Tailwind) -> Interaction: Map icon clicks -> Justification: Similar to souvenirs, a card grid is ideal for presenting attractions with images and essential details, meeting the 4-star+ rating or 5+ blog mentions criteria. -->
+    <!-- Application Structure Plan: The SPA maintains its user-centric, task-oriented structure. The primary update is the integration of specific dates into the daily itinerary display, positioned above the "Day X" heading and centered, enhancing clarity and user orientation. This refinement improves the chronological presentation of the trip. -->
+    <!-- Visualization & Content Choices: 1. Daily Plan -> Goal: Chronological guidance with precise dates and practical info -> Viz: Vertical Timeline (HTML/Tailwind) with added date and weather info -> Interaction: Tab clicks, functional map links -> Justification: Adding dates directly to the daily itinerary improves user clarity and trip planning. 2. Food List -> Goal: Easy discovery -> Viz: Card Grid -> Interaction: JS filter buttons -> Justification: No changes to food list. 3. Cost Data -> Goal: Remove financial details -> Viz: Section removed -> Justification: Budget wording and cost analysis remain removed. 4. Packing List -> Goal: Actionable checklist -> Viz: Styled HTML list -> Interaction: None -> Justification: No changes to packing list. 5. Souvenir/Attraction Lists -> Goal: Provide additional options -> Viz: Card Grid -> Interaction: Map icon clicks -> Justification: These sections remain to offer supplementary information. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
@@ -47,6 +47,7 @@
             background-color: #FBBF24; /* amber-400 */
             border: 3px solid #FFFFFF;
         }
+        /* Chart container styles are kept but the section is removed */
         .chart-container {
             position: relative;
             width: 100%;
@@ -78,7 +79,6 @@
                         <a href="#food-map" class="nav-link px-3 py-2 rounded-md text-sm font-medium">美食地圖</a>
                         <a href="#souvenirs" class="nav-link px-3 py-2 rounded-md text-sm font-medium">熱門伴手禮</a>
                         <a href="#new-attractions" class="nav-link px-3 py-2 rounded-md text-sm font-medium">熱門景點</a>
-                        <a href="#costs" class="nav-link px-3 py-2 rounded-md text-sm font-medium">交通費用</a>
                         <a href="#preparation" class="nav-link px-3 py-2 rounded-md text-sm font-medium">行前準備</a>
                     </div>
                 </div>
@@ -97,7 +97,6 @@
                 <a href="#food-map" class="nav-link block px-3 py-2 rounded-md text-base font-medium">美食地圖</a>
                 <a href="#souvenirs" class="nav-link block px-3 py-2 rounded-md text-base font-medium">熱門伴手禮</a>
                 <a href="#new-attractions" class="nav-link block px-3 py-2 rounded-md text-base font-medium">熱門景點</a>
-                <a href="#costs" class="nav-link block px-3 py-2 rounded-md text-base font-medium">交通費用</a>
                 <a href="#preparation" class="nav-link block px-3 py-2 rounded-md text-base font-medium">行前準備</a>
             </div>
         </div>
@@ -114,7 +113,7 @@
 
         <section id="daily-itinerary" class="scroll-mt-20 mb-16">
             <h2 class="text-3xl font-bold text-center mb-2 text-orange-600">每日行程</h2>
-            <p class="text-center text-gray-600 mb-8">以時間軸呈現每日的精彩活動，點擊地圖圖示即可開啟Google Maps導航。</p>
+            <p class="text-center text-gray-600 mb-8">以時間軸呈現每日的精彩活動，點擊地圖圖示即可開啟Google Maps導航。下方也提供了每日天氣預測供您參考。</p>
             <div id="tabs-container" class="flex justify-center mb-6 space-x-2 md:space-x-4 bg-amber-100/50 p-2 rounded-full">
                 <button data-day="day1" class="tab-btn active px-4 py-2 text-sm md:text-base font-semibold text-amber-800 rounded-full transition-colors duration-300">Day 1 嘉義</button>
                 <button data-day="day2" class="tab-btn px-4 py-2 text-sm md:text-base font-semibold text-amber-800 rounded-full transition-colors duration-300">Day 2 台南</button>
@@ -155,16 +154,6 @@
             </div>
         </section>
 
-        <section id="costs" class="scroll-mt-20 mb-16">
-            <h2 class="text-3xl font-bold text-center mb-2 text-orange-600">交通費用分析</h2>
-            <p class="text-center text-gray-600 mb-8">此圖表為您分析本次旅程的交通費用結構。</p>
-            <div class="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
-                <div class="chart-container">
-                    <canvas id="costChart"></canvas>
-                </div>
-            </div>
-        </section>
-
         <section id="preparation" class="scroll-mt-20">
             <h2 class="text-3xl font-bold text-center mb-8 text-orange-600">行前準備清單</h2>
             <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
@@ -190,16 +179,101 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    // Itinerary data including dates and labels for each day
     const itineraryData = {
-        day1: [{ time: '09:00-10:30', activity: '從五堵出發', details: '沿國道1號南下，開啟愉快的旅程。', map: 'https://www.google.com/maps/dir/%E4%BA%94%E5%A0%B5/%E6%B3%B0%E5%AE%89%E6%9C%8D%E5%8B%99%E5%8D%80(%E5%8D%97%E4%B8%8B)/@24.770932,120.730872,9z' },{ time: '10:30-11:30', activity: '泰安服務區 (南下) 休息', details: '在親子主題區讓孩子活動一下筋骨，舒緩長途車的疲憊。', map: 'https://www.google.com/maps/search/?api=1&query=泰安服務區南下' },{ time: '13:00-14:00', activity: '午餐：劉里長火雞肉飯 (4.2★)', details: '品嚐嘉義最經典的在地美味，口味大眾化，適合全家大小。', map: 'https://www.google.com/maps/search/?api=1&query=劉里長火雞肉飯嘉義市東區公明路197號' },{ time: '14:00-16:00', activity: '三隻小豬觀光農場 (4.2★)', details: '與近30種可愛動物互動，還有大草原和遊戲區讓孩子盡情奔跑。', map: 'https://www.google.com/maps/search/?api=1&query=三隻小豬觀光農場嘉義縣民雄鄉民新路369號' },{ time: '16:00-17:30', activity: '入住天成文旅-繪日之丘 (4.3★)', details: '辦理入住，體驗飯店獨特的親子設施，如星空童樂室。', map: 'https://www.google.com/maps/search/?api=1&query=天成文旅-繪日之丘' },{ time: '17:30-19:00', activity: '嘉義市立博物館 (4.4★)', details: '兒童廳充滿互動遊戲，是孩子的專屬展廳，記得要穿襪子喔！', map: 'https://www.google.com/maps/search/?api=1&query=嘉義市立博物館' },{ time: '19:00-20:30', activity: '晚餐：林聰明沙鍋魚頭 (4.1★)', details: '嘉義必吃的排隊美食，濃郁湯頭讓人回味無窮。', map: 'https://www.google.com/maps/search/?api=1&query=林聰明沙鍋魚頭嘉義市東區中正路361號' },],
-        day2: [{ time: '09:30-10:30', activity: '前往七股鹽山', details: '從嘉義出發，前往台南的白色童話世界。', map: 'https://www.google.com/maps/dir/天成文旅-繪日之丘/七股鹽山/@23.323896,120.109102,10z' },{ time: '10:30-12:30', activity: '七股鹽山 (4.1★)', details: '攀登獨特的鹽山，搭乘遊園小火車，享受鹽田風光。', map: 'https://www.google.com/maps/search/?api=1&query=七股鹽山' },{ time: '12:30-14:00', activity: '午餐：文章牛肉湯 (4.4★)', details: '品嚐台南必吃的溫體牛肉湯，體驗府城鮮甜滋味。', map: 'https://www.google.com/maps/search/?api=1&query=文章牛肉湯台南市安平區安平路300號' },{ time: '14:00-17:00', activity: '十鼓仁糖文創園區 (4.5★)', details: '欣賞震撼的鼓樂表演，體驗刺激的極限設施與有趣的親子活動。', map: 'https://www.google.com/maps/search/?api=1&query=十鼓仁糖文創園區' },{ time: '17:30-18:30', activity: '入住煙波大飯店台南館 (4.5★)', details: '辦理入住後，可帶孩子到露天泳池玩水消暑。', map: 'https://www.google.com/maps/search/?api=1&query=煙波大飯店台南館' },{ time: '18:30-20:00', activity: '晚餐：咕嚕家庭料理館 (4.3★)', details: '親子友善的家常菜餐廳，份量十足，美味可口。', map: 'https://www.google.com/maps/search/?api=1&query=咕嚕家庭料理館台南市中西區慶中街12號' },],
-        day3: [{ time: '10:00-12:30', activity: '奧斯丁夢想樂園 (4.4★)', details: '位於南紡購物中心，是孩子們的室內天堂，記得穿襪子入場。', map: 'https://www.google.com/maps/search/?api=1&query=奧斯丁夢想樂園台南南紡店' },{ time: '12:30-14:00', activity: '午餐：南紡周邊美食', details: '購物中心內有多樣選擇，或可嘗試附近的親子火鍋店。', map: 'https://www.google.com/maps/search/?api=1&query=養鍋Yang+Guo石頭涮涮鍋台南文化店' },{ time: '14:00-17:00', activity: '奇美博物館 (4.7★)', details: '豐富的藝術收藏與寬廣的戶外園區，7歲以下兒童免費入場。', map: 'https://www.google.com/maps/search/?api=1&query=奇美博物館' },{ time: '17:30-19:00', activity: '晚餐：國華街美食探索', details: '可嘗試金得春捲、石精臼蚵仔煎等國華街知名小吃。', map: 'https://www.google.com/maps/search/?api=1&query=台南國華街' },],
-        day4: [{ time: '10:00-11:30', activity: '四草綠色隧道 (4.4★)', details: '搭乘竹筏體驗台版亞馬遜河，欣賞紅樹林生態，航程約30分鐘。', map: 'https://www.google.com/maps/search/?api=1&query=四草綠色隧道' },{ time: '11:30-12:30', activity: '午餐：富盛號碗粿 (4.1★)', details: '品嚐台南經典碗粿，為這趟美食之旅劃下完美句點。', map: 'https://www.google.com/maps/search/?api=1&query=富盛號碗粿台南市民族路三段11號' },{ time: '12:30-14:30', activity: '從台南出發北上', details: '帶著滿滿的回憶，準備返回溫暖的家。', map: 'https://www.google.com/maps/dir/台南市/泰安服務區/@23.631024,120.274193,9z' },{ time: '14:30-15:30', activity: '泰安服務區 (北上) 休息', details: '在回程中途稍作休息，補充體力。', map: 'https://www.google.com/maps/search/?api=1&query=泰安服務區北上' },{ time: '17:00', activity: '抵達五堵', details: '平安到家，期待下一次的旅行！', map: 'https://www.google.com/maps/dir/泰安服務區/五堵/@24.770932,120.730872,9z' },]
+        day1: {
+            date: '07/30',
+            label: 'Day 1 嘉義',
+            activities: [
+                { time: '09:00-10:30', activity: '從五堵出發', details: '沿國道1號南下，開啟愉快的旅程。', map: 'https://www.google.com/maps/dir/%E4%BA%94%E5%A0%B5/%E6%B3%B0%E5%AE%89%E6%9C%8D%E5%8B%99%E5%8D%80(%E5%8D%97%E4%B8%8B)/@24.770932,120.730872,9z' },
+                { time: '10:30-11:30', activity: '泰安服務區 (南下) 休息', details: '在親子主題區讓孩子活動一下筋骨，舒緩長途車的疲憊。', map: 'https://www.google.com/maps/search/?api=1&query=泰安服務區南下' },
+                { time: '13:00-14:00', activity: '午餐：劉里長火雞肉飯 (4.2★)', details: '品嚐嘉義最經典的在地美味，口味大眾化，適合全家大小。', map: 'https://www.google.com/maps/search/?api=1&query=劉里長火雞肉飯嘉義市東區公明路197號' },
+                { time: '14:00-16:00', activity: 'KANO園區遊戲場 (4.5★)', details: '嘉義最新的特色公園，擁有超寬版磨石子溜滑梯和滑草場，是孩子放電天堂。', map: 'https://www.google.com/maps/search/?api=1&query=KANO園區遊戲場嘉義市東區山仔頂249-1號' },
+                { time: '16:00-17:30', activity: '入住天成文旅-繪日之丘 (4.3★)', details: '辦理入住，體驗飯店獨特的親子設施，如星空童樂室。', map: 'https://www.google.com/maps/search/?api=1&query=天成文旅-繪日之丘' },
+                { time: '17:30-19:00', activity: '嘉義市立博物館 (4.4★)', details: '兒童廳充滿互動遊戲，是孩子的專屬展廳，記得要穿襪子喔！', map: 'https://www.google.com/maps/search/?api=1&query=嘉義市立博物館' },
+                { time: '19:00-20:30', activity: '晚餐：林聰明沙鍋魚頭 (4.1★)', details: '嘉義必吃的排隊美食，濃郁湯頭讓人回味無窮。', map: 'https://www.google.com/maps/search/?api=1&query=林聰明沙鍋魚頭嘉義市東區中正路361號' },
+            ]
+        },
+        day2: {
+            date: '07/31',
+            label: 'Day 2 台南',
+            activities: [
+                { time: '09:30-10:30', activity: '前往七股鹽山', details: '從嘉義出發，前往台南的白色童話世界。', map: 'https://www.google.com/maps/dir/天成文旅-繪日之丘/七股鹽山/@23.323896,120.109102,10z' },
+                { time: '10:30-12:30', activity: '七股鹽山 (4.1★)', details: '攀登獨特的鹽山，搭乘遊園小火車，享受鹽田風光。', map: 'https://www.google.com/maps/search/?api=1&query=七股鹽山' },
+                { time: '12:30-14:00', activity: '午餐：文章牛肉湯 (4.4★)', details: '品嚐台南必吃的溫體牛肉湯，體驗府城鮮甜滋味。', map: 'https://www.google.com/maps/search/?api=1&query=文章牛肉湯台南市安平區安平路300號' },
+                { time: '14:00-17:00', activity: '十鼓仁糖文創園區 (4.5★)', details: '欣賞震撼的鼓樂表演，體驗刺激的極限設施與有趣的親子活動。', map: 'https://www.google.com/maps/search/?api=1&query=十鼓仁糖文創園區' },
+                { time: '17:30-18:30', activity: '入住煙波大飯店台南館 (4.5★)', details: '辦理入住後，可帶孩子到露天泳池玩水消暑。', map: 'https://www.google.com/maps/search/?api=1&query=煙波大飯店台南館' },
+                { time: '18:30-20:00', activity: '晚餐：咕嚕家庭料理館 (4.3★)', details: '親子友善的家常菜餐廳，份量十足，美味可口。', map: 'https://www.google.com/maps/search/?api=1&query=咕嚕家庭料理館台南市中西區慶中街12號' },
+            ]
+        },
+        day3: {
+            date: '08/01',
+            label: 'Day 3 台南',
+            activities: [
+                { time: '10:00-12:30', activity: '樹谷生活科學館 (4.4★)', details: '結合自然史、科學與文化，擁有豐富的互動式展覽和恐龍化石，適合室內探索。', map: 'https://www.google.com/maps/search/?api=1&query=樹谷生活科學館台南市新市區中心東路12號' },
+                { time: '12:30-14:00', activity: '午餐：南紡周邊或台南在地美食', details: '可選擇科學館周邊餐廳或前往台南市區品嚐小吃。', map: 'https://www.google.com/maps/search/?api=1&query=養鍋Yang+Guo石頭涮涮鍋台南文化店' },
+                { time: '14:00-17:00', activity: '奇美博物館 (4.7★)', details: '豐富的藝術收藏與寬廣的戶外園區，7歲以下兒童免費入場。', map: 'https://www.google.com/maps/search/?api=1&query=奇美博物館' },
+                { time: '17:30-19:00', activity: '晚餐：國華街美食探索', details: '可嘗試金得春捲、石精臼蚵仔煎等國華街知名小吃。', map: 'https://www.google.com/maps/search/?api=1&query=台南國華街' },
+            ]
+        },
+        day4: {
+            date: '08/02',
+            label: 'Day 4 返程',
+            activities: [
+                { time: '10:00-11:30', activity: '四草綠色隧道 (4.4★)', details: '搭乘竹筏體驗台版亞馬遜河，欣賞紅樹林生態，航程約30分鐘。', map: 'https://www.google.com/maps/search/?api=1&query=四草綠色隧道' },
+                { time: '11:30-12:30', activity: '午餐：富盛號碗粿 (4.1★)', details: '品嚐台南經典碗粿，為這趟美食之旅劃下完美句點。', map: 'https://www.google.com/maps/search/?api=1&query=富盛號碗粿台南市民族路三段11號' },
+                { time: '12:30-14:30', activity: '從台南出發北上', details: '帶著滿滿的回憶，準備返回溫暖的家。', map: 'https://www.google.com/maps/dir/台南市/泰安服務區/@23.631024,120.274193,9z' },
+                { time: '14:30-15:30', activity: '泰安服務區 (北上) 休息', details: '在回程中途稍作休息，補充體力。', map: 'https://www.google.com/maps/search/?api=1&query=泰安服務區北上' },
+                { time: '17:00', activity: '抵達五堵', details: '平安到家，期待下一次的旅行！', map: 'https://www.google.com/maps/dir/泰安服務區/五堵/@24.770932,120.730872,9z' },
+            ]
+        }
     };
-    const foodData = [{ name: '劉里長火雞肉飯', city: '嘉義', rating: '4.2★', category: 'chiayi-main', map: 'https://www.google.com/maps/search/?api=1&query=劉里長火雞肉飯嘉義市東區公明路197號', desc: '嘉義經典老店，口味大眾化，適合全家品嚐。' },{ name: '林聰明沙鍋魚頭', city: '嘉義', rating: '4.1★', category: 'chiayi-main', map: 'https://www.google.com/maps/search/?api=1&query=林聰明沙鍋魚頭嘉義市東區中正路361號', desc: '必吃排隊美食，湯頭濃郁，魚肉鮮美。' },{ name: '源興御香屋', city: '嘉義', rating: '4.4★', category: 'chiayi-drink', map: 'https://www.google.com/maps/search/?api=1&query=源興御香屋', desc: '超人氣葡萄柚綠茶，夏日消暑聖品。' },{ name: '阿婆烤玉米', city: '嘉義', rating: '4.5★', category: 'chiayi-snack', map: 'https://www.google.com/maps/search/?api=1&query=阿婆烤玉米嘉義市東區民族路312號', desc: '在地人推薦的炭烤糯米玉米，醬料獨特。' },{ name: '文章牛肉湯', city: '台南', rating: '4.4★', category: 'tainan-main', map: 'https://www.google.com/maps/search/?api=1&query=文章牛肉湯台南市安平區安平路300號', desc: '台南牛肉湯指標名店，湯頭鮮美，肉質軟嫩。' },{ name: '富盛號碗粿', city: '台南', rating: '4.1★', category: 'tainan-snack', map: 'https://www.google.com/maps/search/?api=1&query=富盛號碗粿台南市民族路三段11號', desc: '經典古早味，Q彈碗粿搭配豐富內餡。' },{ name: '咕嚕家庭料理館', city: '台南', rating: '4.3★', category: 'tainan-family', map: 'https://www.google.com/maps/search/?api=1&query=咕嚕家庭料理館台南市中西區慶中街12號', desc: '在地人推薦的親子友善餐廳，家常料理份量足。' },{ name: '金得春捲', city: '台南', rating: '4.2★', category: 'tainan-snack', map: 'https://www.google.com/maps/search/?api=1&query=金得春捲台南市中西區民族路三段19號', desc: '國華街人氣名店，用料實在，甜度可調整。' },];
-    const foodFilters = [{ key: 'all', name: '全部' },{ key: 'chiayi-main', name: '嘉義主食' },{ key: 'chiayi-snack', name: '嘉義小吃' },{ key: 'chiayi-drink', name: '嘉義飲品' },{ key: 'tainan-main', name: '台南主食' },{ key: 'tainan-snack', name: '台南小吃' },{ key: 'tainan-family', name: '台南餐廳' },];
-    const checklistData = { essentials: ["輕便透氣衣物 (多備一套)", "防曬乳、遮陽帽、太陽眼鏡", "輕便雨衣或折疊傘", "個人常備藥品與急救包", "防蚊液或防蚊貼片", "孩童專用安全座椅", "手機、充電器、行動電源", "健保卡、身分證件", "孩童專用安撫玩具或繪本", "襪子 (多個室內景點需要)"], tips: ["使用收納袋分類打包，方便拿取。", "可將孩子每日穿搭分裝成袋。", "隨身包準備少量應急物品。", "重要證件拍照備份存於雲端。", "善用飯店設施，讓孩子充分放電。", "行程保持彈性，依孩子狀況調整。"] };
+
+    // Placeholder weather data for each day (since real-time API calls are not possible here)
+    const dailyWeather = {
+        day1: '陰陣雨或雷雨',
+        day2: '陰陣雨或雷雨',
+        day3: '陰陣雨或雷雨',
+        day4: '陰陣雨或雷雨'
+    };
+
+    // Food data for the food map section
+    const foodData = [
+        { name: '劉里長火雞肉飯', city: '嘉義', rating: '4.2★', category: 'chiayi-main', map: 'https://www.google.com/maps/search/?api=1&query=劉里長火雞肉飯嘉義市東區公明路197號', desc: '嘉義經典老店，口味大眾化，適合全家品嚐。' },
+        { name: '林聰明沙鍋魚頭', city: '嘉義', rating: '4.1★', category: 'chiayi-main', map: 'https://www.google.com/maps/search/?api=1&query=林聰明沙鍋魚頭嘉義市東區中正路361號', desc: '必吃排隊美食，湯頭濃郁，魚肉鮮美。' },
+        { name: '源興御香屋', city: '嘉義', rating: '4.4★', category: 'chiayi-drink', map: 'https://www.google.com/maps/search/?api=1&query=源興御香屋', desc: '超人氣葡萄柚綠茶，夏日消暑聖品。' },
+        { name: '阿婆烤玉米', city: '嘉義', rating: '4.5★', category: 'chiayi-snack', map: 'https://www.google.com/maps/search/?api=1&query=阿婆烤玉米嘉義市東區民族路312號', desc: '在地人推薦的炭烤糯米玉米，醬料獨特。' },
+        { name: '文章牛肉湯', city: '台南', rating: '4.4★', category: 'tainan-main', map: 'https://www.google.com/maps/search/?api=1&query=文章牛肉湯台南市安平區安平路300號', desc: '台南牛肉湯指標名店，湯頭鮮美，肉質軟嫩。' },
+        { name: '富盛號碗粿', city: '台南', rating: '4.1★', category: 'tainan-snack', map: 'https://www.google.com/maps/search/?api=1&query=富盛號碗粿台南市民族路三段11號', desc: '經典古早味，Q彈碗粿搭配豐富內餡。' },
+        { name: '咕嚕家庭料理館', city: '台南', rating: '4.3★', category: 'tainan-family', map: 'https://www.google.com/maps/search/?api=1&query=咕嚕家庭料理館台南市中西區慶中街12號', desc: '在地人推薦的親子友善餐廳，份量十足，美味可口。' },
+        { name: '金得春捲', city: '台南', rating: '4.2★', category: 'tainan-snack', map: 'https://www.google.com/maps/search/?api=1&query=金得春捲台南市中西區民族路三段19號', desc: '國華街人氣名店，用料實在，甜度可調整。' },
+    ];
+    const foodFilters = [
+        { key: 'all', name: '全部' },
+        { key: 'chiayi-main', name: '嘉義主食' },
+        { key: 'chiayi-snack', name: '嘉義小吃' },
+        { key: 'chiayi-drink', name: '嘉義飲品' },
+        { key: 'tainan-main', name: '台南主食' },
+        { key: 'tainan-snack', name: '台南小吃' },
+        { key: 'tainan-family', name: '台南餐廳' },
+    ];
+
+    // Checklist data for preparation section
+    const checklistData = {
+        essentials: [
+            "輕便透氣衣物 (多備一套)", "防曬乳、遮陽帽、太陽眼鏡", "輕便雨衣或折疊傘",
+            "個人常備藥品與急救包", "防蚊液或防蚊貼片", "孩童專用安全座椅",
+            "手機、充電器、行動電源", "健保卡、身分證件", "孩童專用安撫玩具或繪本",
+            "襪子 (多個室內景點需要)"
+        ],
+        tips: [
+            "使用收納袋分類打包，方便拿取。", "可將孩子每日穿搭分裝成袋。",
+            "隨身包準備少量應急物品。", "重要證件拍照備份存於雲端。",
+            "善用飯店設施，讓孩子充分放電。", "行程保持彈性，依孩子狀況調整。"
+        ]
+    };
     
+    // Souvenirs data for both cities
     const souvenirsData = {
         chiayi: [
             { name: '旺萊山鳳梨酥', rating: '4.2★', desc: '使用在地新鮮鳳梨製作，香氣濃郁，是結合觀光工廠的代表性伴手禮。', map: 'https://www.google.com/maps/search/?api=1&query=旺萊山鳳梨文化園區' },
@@ -213,19 +287,27 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
+    // Attractions data for both cities
     const attractionsData = {
         chiayi: [
-            { name: '新嘉大昆蟲館', rating: '4.4★', desc: '寓教於樂的昆蟲主題館，活體解說導覽和蝴蝶溫室花園深受親子喜愛。', map: 'https://www.google.com/maps/search/?api=1&query=新嘉大昆蟲館' },
-            { name: 'KANO園區遊戲場', rating: '4.5★', desc: '免費開放的特色公園，擁有超寬版磨石子溜滑梯和滑草場，是孩子放電天堂。', map: 'https://www.google.com/maps/search/?api=1&query=KANO園區' },
-            { name: '蘭潭風景區', rating: '4.3★', desc: '夜晚可欣賞免費的水舞燈光秀，搭配「月影潭心」裝置藝術，是休閒好去處。', map: 'https://www.google.com/maps/search/?api=1&query=蘭潭風景區' }
+            { name: 'KANO園區遊戲場', rating: '4.5★', desc: '免費開放的特色公園，擁有超寬版磨石子溜滑梯和滑草場，是孩子放電天堂。', map: 'https://www.google.com/maps/search/?api=1&query=KANO園區遊戲場嘉義市東區山仔頂249-1號' },
+            { name: '蘭潭風景區', rating: '4.3★', desc: '夜晚可欣賞免費的水舞燈光秀，搭配「月影潭心」裝置藝術，是休閒好去處。', map: 'https://www.google.com/maps/search/?api=1&query=蘭潭風景區' },
+            { name: '檜意森活村', rating: '4.3★', desc: '日式建築群，充滿文創氣息，提供和服體驗、手作DIY、特色小吃。', map: 'https://www.google.com/maps/search/?api=1&query=檜意森活村嘉義市東區林森東路1號' },
+            { name: '沉睡森林主題公園', rating: '4.4★', desc: '以可愛動物裝置藝術為主題的公園，適合散步拍照，充滿童趣。', map: 'https://www.google.com/maps/search/?api=1&query=沉睡森林主題公園嘉義市東區共和路239號' },
+            { name: '嘉義市立博物館', rating: '4.4★', desc: '兒童廳有迷宮、球池、考古沙坑與互動設施，全台首座考古密室。', map: 'https://www.google.com/maps/search/?api=1&query=嘉義市立博物館' }
         ],
         tainan: [
             { name: '奇美博物館', rating: '4.7★', desc: '收藏豐富的綜合性博物館，戶外園區廣闊，AR實境遊戲增添互動樂趣。', map: 'https://www.google.com/maps/search/?api=1&query=奇美博物館' },
             { name: '十鼓仁糖文創園區', rating: '4.5★', desc: '結合鼓樂、極限設施與糖廠文化，提供從幼兒到成人的多元體驗。', map: 'https://www.google.com/maps/search/?api=1&query=十鼓仁糖文創園區' },
-            { name: '四草綠色隧道', rating: '4.4★', desc: '搭乘竹筏體驗「台版亞馬遜河」，欣賞獨特的紅樹林生態景觀。', map: 'https://www.google.com/maps/search/?api=1&query=四草綠色隧道' }
+            { name: '四草綠色隧道', rating: '4.4★', desc: '搭乘竹筏體驗「台版亞馬遜河」，欣賞獨特的紅樹林生態景觀。', map: 'https://www.google.com/maps/search/?api=1&query=四草綠色隧道' },
+            { name: '七股鹽山', rating: '4.1★', desc: '台灣獨特的白色地景，有遊園小火車、摩天輪、沙坑等兒童設施。', map: 'https://www.google.com/maps/search/?api=1&query=七股鹽山' },
+            { name: '樹谷生活科學館', rating: '4.4★', desc: '結合自然史、科學與文化，擁有豐富的互動式展覽和恐龍化石，適合室內探索。', map: 'https://www.google.com/maps/search/?api=1&query=樹谷生活科學館台南市新市區中心東路12號' },
+            { name: '國立臺灣歷史博物館', rating: '4.4★', desc: '國家級歷史博物館，設有兒童廳，提供豐富的歷史文化教育。', map: 'https://www.google.com/maps/search/?api=1&query=國立臺灣歷史博物館' },
+            { name: '台南左鎮化石園區', rating: '4.3★', desc: '以化石為主題的園區，展示豐富的古生物和地質學知識，適合親子參觀。', map: 'https://www.google.com/maps/search/?api=1&query=台南左鎮化石園區' }
         ]
     };
 
+    // Get references to the HTML elements
     const itineraryContent = document.getElementById('itinerary-content');
     const foodGrid = document.getElementById('food-grid');
     const foodFiltersContainer = document.getElementById('food-filters');
@@ -236,46 +318,154 @@ document.addEventListener('DOMContentLoaded', () => {
     const attractionsChiayi = document.getElementById('attractions-chiayi');
     const attractionsTainan = document.getElementById('attractions-tainan');
 
-    function createTimelineHTML(dayData) {
-        return `<div class="relative border-l-2 border-amber-200 pl-8 py-4">${dayData.map(item => `<div class="relative mb-8 timeline-item"><div class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"><p class="font-bold text-amber-600 mb-1">${item.time}</p><h4 class="text-lg font-semibold text-gray-800">${item.activity}</h4><p class="text-gray-500 text-sm mt-1">${item.details}</p><a href="${item.map}" target="_blank" rel="noopener noreferrer" class="absolute top-4 right-4 text-orange-500 hover:text-orange-700 text-2xl" title="在Google Maps中開啟">🗺️</a></div></div>`).join('')}</div>`;
+    /**
+     * Creates the HTML for the daily itinerary timeline.
+     * @param {object} dayData - The data for the specific day (date, label, activities).
+     * @param {string} dayKey - The key for the day (e.g., 'day1', 'day2').
+     * @returns {string} The HTML string for the timeline.
+     */
+    function createTimelineHTML(dayData, dayKey) {
+        const weatherInfo = dailyWeather[dayKey] || '天氣資訊待更新'; // Get weather for the day
+        return `
+            <div class="text-center mb-6">
+                <p class="text-2xl font-bold text-orange-600">${dayData.date}</p>
+                <h3 class="text-xl font-semibold text-gray-800">${dayData.label}</h3>
+            </div>
+            <div class="relative border-l-2 border-amber-200 pl-8 py-4">
+                <div class="bg-amber-50 p-3 rounded-lg shadow-sm mb-6 flex items-center">
+                    <p class="text-amber-800 font-semibold">今日天氣預測：${weatherInfo}</p>
+                </div>
+                ${dayData.activities.map(item => `
+                    <div class="relative mb-8 timeline-item">
+                        <div class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                            <p class="font-bold text-amber-600 mb-1">${item.time}</p>
+                            <h4 class="text-lg font-semibold text-gray-800">${item.activity}</h4>
+                            <p class="text-gray-500 text-sm mt-1">${item.details}</p>
+                            <a href="${item.map}" target="_blank" rel="noopener noreferrer" class="absolute top-4 right-4 text-orange-500 hover:text-orange-700 text-2xl" title="在Google Maps中開啟">
+                                🗺️
+                            </a>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
     }
     
-    function renderItinerary(day) { itineraryContent.innerHTML = createTimelineHTML(itineraryData[day]); }
+    /**
+     * Renders the itinerary content for the selected day.
+     * @param {string} dayKey - The key for the day to render (e.g., 'day1').
+     */
+    function renderItinerary(dayKey) {
+        itineraryContent.innerHTML = createTimelineHTML(itineraryData[dayKey], dayKey);
+    }
 
+    // Event listener for tab buttons to switch daily itineraries
     document.getElementById('tabs-container').addEventListener('click', (e) => {
         if (e.target.tagName === 'BUTTON') {
+            // Remove 'active' class from the currently active button
             document.querySelector('#tabs-container .active').classList.remove('active');
+            // Add 'active' class to the clicked button
             e.target.classList.add('active');
+            // Render the itinerary for the selected day
             renderItinerary(e.target.dataset.day);
         }
     });
 
+    /**
+     * Renders the filter buttons for the food map.
+     */
     function renderFoodFilters() {
-        foodFiltersContainer.innerHTML = foodFilters.map(filter => `<button data-filter="${filter.key}" class="filter-btn px-4 py-2 text-sm font-semibold border border-orange-500 text-orange-600 rounded-full transition-all duration-300 hover:bg-orange-500 hover:text-white ${filter.key === 'all' ? 'active' : ''}">${filter.name}</button>`).join('');
+        foodFiltersContainer.innerHTML = foodFilters.map(filter => `
+            <button data-filter="${filter.key}" class="filter-btn px-4 py-2 text-sm font-semibold border border-orange-500 text-orange-600 rounded-full transition-all duration-300 hover:bg-orange-500 hover:text-white ${filter.key === 'all' ? 'active' : ''}">
+                ${filter.name}
+            </button>
+        `).join('');
     }
 
+    /**
+     * Renders the food grid based on the selected filter.
+     * @param {string} filter - The filter key (e.g., 'all', 'chiayi-main').
+     */
     function renderFoodGrid(filter = 'all') {
-        const filteredData = filter === 'all' ? foodData : foodData.filter(item => item.category.startsWith(filter.split('-')[0]) && (filter.includes('-') ? item.category === filter : true));
-        foodGrid.innerHTML = filteredData.map(item => `<div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300"><div class="p-6"><div class="flex justify-between items-start"><div><p class="text-xs font-semibold text-amber-600 uppercase">${item.city} | ${item.rating}</p><h4 class="text-xl font-bold text-gray-800 mt-1">${item.name}</h4></div><a href="${item.map}" target="_blank" rel="noopener noreferrer" class="text-orange-500 hover:text-orange-700 text-3xl ml-4" title="在Google Maps中開啟">📍</a></div><p class="text-gray-600 mt-2 text-sm">${item.desc}</p></div></div>`).join('');
+        const filteredData = filter === 'all' ? foodData : foodData.filter(item => {
+            // Check if the item's category starts with the city part of the filter
+            const cityMatch = item.category.startsWith(filter.split('-')[0]);
+            // If the filter has a specific type (e.g., 'chiayi-main'), match the full category
+            const typeMatch = filter.includes('-') ? item.category === filter : true;
+            return cityMatch && typeMatch;
+        });
+        foodGrid.innerHTML = filteredData.map(item => `
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-semibold text-amber-600 uppercase">${item.city} | ${item.rating}</p>
+                            <h4 class="text-xl font-bold text-gray-800 mt-1">${item.name}</h4>
+                        </div>
+                        <a href="${item.map}" target="_blank" rel="noopener noreferrer" class="text-orange-500 hover:text-orange-700 text-3xl ml-4" title="在Google Maps中開啟">
+                            🗺️
+                        </a>
+                    </div>
+                    <p class="text-gray-600 mt-2 text-sm">${item.desc}</p>
+                </div>
+            </div>
+        `).join('');
     }
 
+    // Event listener for food filter buttons
     foodFiltersContainer.addEventListener('click', (e) => {
         if (e.target.tagName === 'BUTTON') {
-            foodFiltersContainer.querySelector('.active').classList.remove('active');
+            document.querySelector('#food-filters .active').classList.remove('active');
             e.target.classList.add('active');
             renderFoodGrid(e.target.dataset.filter);
         }
     });
     
+    /**
+     * Renders the checklist items for essentials and tips.
+     */
     function renderChecklists() {
-        checklistEssentials.innerHTML = checklistData.essentials.map(item => `<li class="flex items-start"><span class="text-amber-500 mr-2 mt-1">🔸</span><span>${item}</span></li>`).join('');
-        checklistTips.innerHTML = checklistData.tips.map(item => `<li class="flex items-start"><span class="text-amber-500 mr-2 mt-1">🔸</span><span>${item}</span></li>`).join('');
+        checklistEssentials.innerHTML = checklistData.essentials.map(item => `
+            <li class="flex items-start">
+                <span class="text-amber-500 mr-2 mt-1">🔸</span>
+                <span>${item}</span>
+            </li>
+        `).join('');
+        checklistTips.innerHTML = checklistData.tips.map(item => `
+            <li class="flex items-start">
+                <span class="text-amber-500 mr-2 mt-1">🔸</span>
+                <span>${item}</span>
+            </li>
+        `).join('');
     }
 
+    /**
+     * Creates an HTML card for a given info item (souvenir or attraction).
+     * @param {object} item - The item data (name, rating, desc, map).
+     * @returns {string} The HTML string for the info card.
+     */
     function createInfoCard(item) {
-        return `<div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300"><div class="p-6"><div class="flex justify-between items-start"><div><p class="text-xs font-semibold text-amber-600 uppercase">${item.rating}</p><h4 class="text-xl font-bold text-gray-800 mt-1">${item.name}</h4></div><a href="${item.map}" target="_blank" rel="noopener noreferrer" class="text-orange-500 hover:text-orange-700 text-3xl ml-4" title="在Google Maps中開啟">📍</a></div><p class="text-gray-600 mt-2 text-sm">${item.desc}</p></div></div>`;
+        return `
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-semibold text-amber-600 uppercase">${item.rating}</p>
+                            <h4 class="text-xl font-bold text-gray-800 mt-1">${item.name}</h4>
+                        </div>
+                        <a href="${item.map}" target="_blank" rel="noopener noreferrer" class="text-orange-500 hover:text-orange-700 text-3xl ml-4" title="在Google Maps中開啟">
+                            🗺️
+                        </a>
+                    </div>
+                    <p class="text-gray-600 mt-2 text-sm">${item.desc}</p>
+                </div>
+            </div>
+        `;
     }
 
+    /**
+     * Renders the lists of souvenirs and attractions.
+     */
     function renderInfoLists() {
         souvenirsChiayi.innerHTML = souvenirsData.chiayi.map(createInfoCard).join('');
         souvenirsTainan.innerHTML = souvenirsData.tainan.map(createInfoCard).join('');
@@ -283,46 +473,55 @@ document.addEventListener('DOMContentLoaded', () => {
         attractionsTainan.innerHTML = attractionsData.tainan.map(createInfoCard).join('');
     }
 
-    new Chart(document.getElementById('costChart').getContext('2d'), {
-        type: 'bar',
-        data: { labels: ['去程 (五堵→嘉義)', '嘉義→台南', '台南當地 (每日)', '回程 (台南→五堵)'], datasets: [{ label: '油資 (NT$)', data: [577, 162, 69, 738], backgroundColor: 'rgba(234, 179, 8, 0.7)', borderColor: 'rgba(234, 179, 8, 1)', borderWidth: 1 }, { label: '過路費 (NT$)', data: [250, 70, 0, 320], backgroundColor: 'rgba(249, 115, 22, 0.7)', borderColor: 'rgba(249, 115, 22, 1)', borderWidth: 1 }, { label: '停車費 (NT$)', data: [0, 0, 150, 0], backgroundColor: 'rgba(251, 191, 36, 0.7)', borderColor: 'rgba(251, 191, 36, 1)', borderWidth: 1 }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: '各路段交通費用預估', font: { size: 16, family: "'Noto Sans TC', sans-serif" }, color: '#4A4A4A' }, tooltip: { callbacks: { label: function(context) { let label = context.dataset.label || ''; if (label) { label += ': '; } if (context.parsed.y !== null) { label += new Intl.NumberFormat('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 }).format(context.parsed.y); } return label; } } } }, scales: { x: { stacked: true, }, y: { stacked: true, beginAtZero: true, title: { display: true, text: '費用 (新台幣)', font: { family: "'Noto Sans TC', sans-serif" } } } } }
-    });
-
+    // Mobile menu toggle functionality
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
 
+    // Close mobile menu and scroll to section when a navigation link is clicked
     document.querySelectorAll('#mobile-menu .nav-link, header .nav-link').forEach(link => {
         link.addEventListener('click', (e) => {
-            if (e.currentTarget.closest('#mobile-menu')) { mobileMenu.classList.add('hidden'); }
+            if (e.currentTarget.closest('#mobile-menu')) {
+                mobileMenu.classList.add('hidden'); // Close mobile menu if clicked from there
+            }
             if(link.getAttribute('href').startsWith('#')) {
-                e.preventDefault();
+                e.preventDefault(); // Prevent default anchor behavior
                 const targetElement = document.querySelector(link.getAttribute('href'));
-                if (targetElement) { targetElement.scrollIntoView({ behavior: 'smooth' }); }
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' }); // Smooth scroll to section
+                }
             }
         });
     });
     
+    // Highlight active navigation link based on scroll position
     const navLinks = document.querySelectorAll('.nav-link');
     const sections = document.querySelectorAll('section');
     window.addEventListener('scroll', () => {
         let current = '';
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
-            if (pageYOffset >= sectionTop - 80) { current = section.getAttribute('id'); }
+            // Adjust offset to trigger active state slightly before section reaches top
+            if (pageYOffset >= sectionTop - 80) {
+                current = section.getAttribute('id');
+            }
         });
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href').substring(1) === current) { link.classList.add('active'); }
+            if (link.getAttribute('href').substring(1) === current) {
+                link.classList.add('active');
+            }
         });
     });
 
-    renderItinerary('day1');
-    renderFoodFilters();
-    renderFoodGrid('all');
-    renderChecklists();
-    renderInfoLists();
+    // Initial rendering calls
+    renderItinerary('day1'); // Render Day 1 itinerary by default
+    renderFoodFilters(); // Render food filter buttons
+    renderFoodGrid('all'); // Render all food items initially
+    renderChecklists(); // Render preparation checklists
+    renderInfoLists(); // Render souvenir and attraction lists
 });
 </script>
 
