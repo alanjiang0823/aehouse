@@ -3,16 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>嘉南親子樂遊 | 4天3夜客製化行程 (V8)</title>
+    <title>嘉南親子樂遊 | 4天3夜客製化行程 (V9)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Journey -->
-    <!-- Application Structure Plan: The SPA maintains its user-centric, task-oriented structure. The primary update is the integration of specific dates into the daily itinerary display, positioned above the "Day X" heading and centered, enhancing clarity and user orientation. This refinement improves the chronological presentation of the trip. -->
-    <!-- Visualization & Content Choices: 1. Daily Plan -> Goal: Chronological guidance with precise dates and practical info -> Viz: Vertical Timeline (HTML/Tailwind) with added date and weather info -> Interaction: Tab clicks, functional map links -> Justification: Adding dates directly to the daily itinerary improves user clarity and trip planning. 2. Food List -> Goal: Easy discovery -> Viz: Card Grid -> Interaction: JS filter buttons -> Justification: No changes to food list. 3. Cost Data -> Goal: Remove financial details -> Viz: Section removed -> Justification: Budget wording and cost analysis remain removed. 4. Packing List -> Goal: Actionable checklist -> Viz: Styled HTML list -> Interaction: None -> Justification: No changes to packing list. 5. Souvenir/Attraction Lists -> Goal: Provide additional options -> Viz: Card Grid -> Interaction: Map icon clicks -> Justification: These sections remain to offer supplementary information. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Noto Sans TC', sans-serif;
@@ -231,10 +227,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Placeholder weather data for each day (since real-time API calls are not possible here)
     const dailyWeather = {
-        day1: '陰陣雨或雷雨',
-        day2: '陰陣雨或雷雨',
-        day3: '陰陣雨或雷雨',
-        day4: '陰陣雨或雷雨'
+        day1: '晴時多雲，偶有陣雨，氣溫28-33°C',
+        day2: '多雲時晴，局部短暫雷陣雨，氣溫27-32°C',
+        day3: '晴朗炎熱，午後雷陣雨，氣溫29-34°C',
+        day4: '多雲轉晴，局部陣雨，氣溫26-31°C'
     };
 
     // Food data for the food map section
@@ -287,14 +283,17 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
-    // Attractions data for both cities
+    // Attractions data for both cities - UPDATED
     const attractionsData = {
         chiayi: [
             { name: 'KANO園區遊戲場', rating: '4.5★', desc: '免費開放的特色公園，擁有超寬版磨石子溜滑梯和滑草場，是孩子放電天堂。', map: 'https://www.google.com/maps/search/?api=1&query=KANO園區遊戲場嘉義市東區山仔頂249-1號' },
             { name: '蘭潭風景區', rating: '4.3★', desc: '夜晚可欣賞免費的水舞燈光秀，搭配「月影潭心」裝置藝術，是休閒好去處。', map: 'https://www.google.com/maps/search/?api=1&query=蘭潭風景區' },
             { name: '檜意森活村', rating: '4.3★', desc: '日式建築群，充滿文創氣息，提供和服體驗、手作DIY、特色小吃。', map: 'https://www.google.com/maps/search/?api=1&query=檜意森活村嘉義市東區林森東路1號' },
             { name: '沉睡森林主題公園', rating: '4.4★', desc: '以可愛動物裝置藝術為主題的公園，適合散步拍照，充滿童趣。', map: 'https://www.google.com/maps/search/?api=1&query=沉睡森林主題公園嘉義市東區共和路239號' },
-            { name: '嘉義市立博物館', rating: '4.4★', desc: '兒童廳有迷宮、球池、考古沙坑與互動設施，全台首座考古密室。', map: 'https://www.google.com/maps/search/?api=1&query=嘉義市立博物館' }
+            { name: '嘉義市立博物館', rating: '4.4★', desc: '兒童廳有迷宮、球池、考古沙坑與互動設施，全台首座考古密室。', map: 'https://www.google.com/maps/search/?api=1&query=嘉義市立博物館' },
+            // New attractions for Chiayi
+            { name: '嘉義故宮南院', rating: '4.5★', desc: '國家級博物館，設有免費兒童創意中心，豐富的互動體驗，戶外園區寬廣，適合親子半日遊。', map: 'https://www.google.com/maps/place/National+Palace+Museum+Southern+Branch/' },
+            { name: 'KHTOY絨毛玩偶旗艦館', rating: '4.8★', desc: '全台最大絨毛玩偶旗艦館，擁有迪士尼、三麗鷗等正版授權玩偶，有多樣拍照場景與免費停車場，是小朋友的天堂。', map: 'https://www.google.com/maps/place/KHTOY+Plush+Toy+Flagship+Store/' }
         ],
         tainan: [
             { name: '奇美博物館', rating: '4.7★', desc: '收藏豐富的綜合性博物館，戶外園區廣闊，AR實境遊戲增添互動樂趣。', map: 'https://www.google.com/maps/search/?api=1&query=奇美博物館' },
@@ -303,7 +302,9 @@ document.addEventListener('DOMContentLoaded', () => {
             { name: '七股鹽山', rating: '4.1★', desc: '台灣獨特的白色地景，有遊園小火車、摩天輪、沙坑等兒童設施。', map: 'https://www.google.com/maps/search/?api=1&query=七股鹽山' },
             { name: '樹谷生活科學館', rating: '4.4★', desc: '結合自然史、科學與文化，擁有豐富的互動式展覽和恐龍化石，適合室內探索。', map: 'https://www.google.com/maps/search/?api=1&query=樹谷生活科學館台南市新市區中心東路12號' },
             { name: '國立臺灣歷史博物館', rating: '4.4★', desc: '國家級歷史博物館，設有兒童廳，提供豐富的歷史文化教育。', map: 'https://www.google.com/maps/search/?api=1&query=國立臺灣歷史博物館' },
-            { name: '台南左鎮化石園區', rating: '4.3★', desc: '以化石為主題的園區，展示豐富的古生物和地質學知識，適合親子參觀。', map: 'https://www.google.com/maps/search/?api=1&query=台南左鎮化石園區' }
+            // New attractions for Tainan
+            { name: '左鎮化石園區', rating: '4.3★', desc: '全台唯一的化石主題園區，結合考古、科學與教育，多媒體互動展覽與戶外挖掘體驗，寓教於樂。', map: 'https://www.google.com/maps/place/%E8%87%BA%E5%8D%97%E5%B7%A6%E9%8E%AE%E5%8C%96%E7%9F%B3%E5%9C%92%E5%8D%80/' },
+            { name: '隆田CHA CHA 文化資產教育園區', rating: '4.5★', desc: '結合嘉南大圳、考古與鐵道文化，擁有巨型彈珠台、沉浸式劇場等多項互動設施，室內空間適合雨天備案。', map: 'https://www.google.com/maps/place/%E9%9A%86%E7%94%B0CHA+CHA%E6%96%87%E5%8C%96%E8%B3%87%E7%94%A2%E6%95%99%E8%82%B2%E5%9C%92%E5%8D%80/' }
         ]
     };
 
@@ -333,6 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="relative border-l-2 border-amber-200 pl-8 py-4">
                 <div class="bg-amber-50 p-3 rounded-lg shadow-sm mb-6 flex items-center">
+                    <span class="text-xl mr-2">☀️</span>
                     <p class="text-amber-800 font-semibold">今日天氣預測：${weatherInfo}</p>
                 </div>
                 ${dayData.activities.map(item => `
@@ -402,6 +404,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             <p class="text-xs font-semibold text-amber-600 uppercase">${item.city} | ${item.rating}</p>
                             <h4 class="text-xl font-bold text-gray-800 mt-1">${item.name}</h4>
                         </div>
+                        <a href="${item.map}" target="_blank" rel="noopener noreferrer" class="absolute top-4 right-4 text-orange-500 hover:text-orange-700 text-2xl" title="在Google Maps中開啟">
+                                🗺️
+                            </a>
                         <a href="${item.map}" target="_blank" rel="noopener noreferrer" class="text-orange-500 hover:text-orange-700 text-3xl ml-4" title="在Google Maps中開啟">
                             🗺️
                         </a>
