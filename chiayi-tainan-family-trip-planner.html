@@ -227,10 +227,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Placeholder weather data for each day (since real-time API calls are not possible here)
     const dailyWeather = {
-        day1: '陰陣雨或雷雨',
-        day2: '陰陣雨或雷雨',
-        day3: '陰陣雨或雷雨',
-        day4: '陰陣雨或雷雨'
+        day1: '陰陣雨或雷雨，須注意淹水地區',
+        day2: '陰陣雨或雷雨，須注意淹水地區',
+        day3: '陰陣雨或雷雨，須注意淹水地區',
+        day4: '陰陣雨或雷雨，須注意淹水地區'
     };
 
     // Food data for the food map section
@@ -239,6 +239,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: '林聰明沙鍋魚頭', city: '嘉義', rating: '4.1★', category: 'chiayi-main', map: 'https://www.google.com/maps/search/?api=1&query=林聰明沙鍋魚頭嘉義市東區中正路361號', desc: '必吃排隊美食，湯頭濃郁，魚肉鮮美。' },
         { name: '源興御香屋', city: '嘉義', rating: '4.4★', category: 'chiayi-drink', map: 'https://www.google.com/maps/search/?api=1&query=源興御香屋', desc: '超人氣葡萄柚綠茶，夏日消暑聖品。' },
         { name: '阿婆烤玉米', city: '嘉義', rating: '4.5★', category: 'chiayi-snack', map: 'https://www.google.com/maps/search/?api=1&query=阿婆烤玉米嘉義市東區民族路312號', desc: '在地人推薦的炭烤糯米玉米，醬料獨特。' },
+        { name: '麥當勞-嘉義北港餐廳－設有得來速', city: '嘉義', rating: '4.5★', category: 'chiayi-main', map: 'https://maps.app.goo.gl/iAPSUA4AADyD7Zaz6', desc: '就...麥當勞' },
+        { name: '野赤燒肉', city: '嘉義', rating: '4.7★', category: 'chiayi-main', map: 'https://maps.app.goo.gl/6pc4se44BFh2cezm9', desc: '野赤燒肉｜500元燒肉吃到飽•炭火燒烤極致享受！' },
         { name: '文章牛肉湯', city: '台南', rating: '4.4★', category: 'tainan-main', map: 'https://www.google.com/maps/search/?api=1&query=文章牛肉湯台南市安平區安平路300號', desc: '台南牛肉湯指標名店，湯頭鮮美，肉質軟嫩。' },
         { name: '富盛號碗粿', city: '台南', rating: '4.1★', category: 'tainan-snack', map: 'https://www.google.com/maps/search/?api=1&query=富盛號碗粿台南市民族路三段11號', desc: '經典古早味，Q彈碗粿搭配豐富內餡。' },
         { name: '咕嚕家庭料理館', city: '台南', rating: '4.3★', category: 'tainan-family', map: 'https://www.google.com/maps/search/?api=1&query=咕嚕家庭料理館台南市中西區慶中街12號', desc: '在地人推薦的親子友善餐廳，份量十足，美味可口。' },
